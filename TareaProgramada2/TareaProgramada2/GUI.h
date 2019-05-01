@@ -9,7 +9,8 @@
 
 #include "Window.h"
 #include "Graph.h"
-
+#include<FL/Fl_Menu_Bar.H>
+#include <FL/Fl_Native_File_Chooser.H>
 namespace Graph_lib {
 
 	//------------------------------------------------------------------------------
@@ -86,10 +87,28 @@ namespace Graph_lib {
 		void put(const string&);
 
 		void attach(Window& win);
+		
 	};
 
 	//------------------------------------------------------------------------------
+	struct MenuBar:Widget
+	{
+		MenuBar(Point xy, int w, int h, const string& s)
+			:Widget(xy, w, h, s, 0) {}
+		Fl_Menu_Bar *fl;
+		void attach(Window& win);
+		
+		static void open_cb(Fl_Widget*, void*);
+		static void close_cb(Fl_Widget*, void*);
 
+	};
+	
+	
+	
+	
+	
+	
+	
 	struct Menu : Widget {
 		enum Kind { horizontal, vertical };
 		Menu(Point xy, int w, int h, Kind kk, const string& label)

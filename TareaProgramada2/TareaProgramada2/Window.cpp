@@ -36,7 +36,7 @@ namespace Graph_lib {
 		w.attach(*this);	// let the Widget create its Fl_Wigits
 		end();				// FTLK: stop attaching new Fl_Wigets to this window
 	}
-
+	
 	void Window::detach(Widget& b)
 	{
 		b.hide();
