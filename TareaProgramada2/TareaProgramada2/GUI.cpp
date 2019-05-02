@@ -28,9 +28,15 @@ string In_box::get_string()
 	return string(pi.value());
 }
 
+void Graph_lib::In_box::deactivate()
+{
+	pw->deactivate();
+}
+
 void In_box::attach(Graph_lib::Window& win)
 {
 	pw = new Fl_Input(loc.x, loc.y, width, height, label.c_str());
+	
 	own = &win;
 }
 

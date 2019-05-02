@@ -74,7 +74,7 @@ namespace Graph_lib {
 			:Widget(xy, w, h, s, 0) { }
 		int get_int();
 		string get_string();
-
+		void deactivate();
 		void attach(Window& win);
 	};
 
