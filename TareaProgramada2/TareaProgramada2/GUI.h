@@ -100,7 +100,7 @@ namespace Graph_lib {
 		static void saveAS_cb(Fl_Widget *, void *);
 		static void open_cb(Fl_Widget*, void*);
 		static void close_cb(Fl_Widget*, void*);
-
+		static void save_cb(Fl_Widget*, void*);
 	};
 	
 	

@@ -95,9 +95,14 @@ void Graph_lib::MenuBar::attach(Window & win)
 	Fl_Menu_Bar *fl;
 	fl = new Fl_Menu_Bar(loc.x, loc.y, width, height, label.c_str());
 	fl->add("Archivo/Abrir...", 0, open_cb);
-	fl->add("Archivo/Guradar Como..", 0, saveAS_cb);
+	fl->add("Archivo/Guardar", 0, save_cb);
+	fl->add("Archivo/Guardar Como..", 0, saveAS_cb);
 	fl->add("Archivo/Salir", 0, close_cb);
-
+	fl->add("Personas/Consultar", 0, open_cb);
+	fl->add("Personas/Insertar", 0, save_cb);
+	fl->add("Personas/Eliminar", 0, close_cb);
+	fl->add("Personas/Modificar", 0, saveAS_cb);
+	
 	pw = fl;
 	own = &win;
 }
@@ -123,7 +128,7 @@ void Graph_lib::MenuBar::saveAS_cb(Fl_Widget *, void *)
 
 
 
- void Graph_lib::MenuBar::open_cb(Fl_Widget *, void *)
+ void Graph_lib::MenuBar::open_cb(Fl_Widget *, void *){}
  {
 	
 	 Fl_Native_File_Chooser fnfc;
@@ -144,6 +149,12 @@ void Graph_lib::MenuBar::saveAS_cb(Fl_Widget *, void *)
  void Graph_lib::MenuBar::close_cb(Fl_Widget *, void *)
  {
 	 exit(0);
+ }
+
+ void Graph_lib::MenuBar::save_cb(Fl_Widget *, void *)
+ {
+	 //TODO
+	 //Guardar arhivo abierto
  }
 
  
