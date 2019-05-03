@@ -93,14 +93,34 @@ int Menu::attach(Button* p)
 void Graph_lib::MenuBar::attach(Window & win)
 {
 	Fl_Menu_Bar *fl;
-	fl= new Fl_Menu_Bar(loc.x, loc.y, width, height, label.c_str());
-	fl->add("Archivo/Abrir", 0,open_cb);
+	fl = new Fl_Menu_Bar(loc.x, loc.y, width, height, label.c_str());
+	fl->add("Archivo/Abrir...", 0, open_cb);
+	fl->add("Archivo/Guradar Como..", 0, saveAS_cb);
 	fl->add("Archivo/Salir", 0, close_cb);
+
 	pw = fl;
 	own = &win;
 }
 
- 
+
+void Graph_lib::MenuBar::saveAS_cb(Fl_Widget *, void *)
+{
+
+	Fl_Native_File_Chooser fnfc;
+	fnfc.title("Guardar archivo como");
+	fnfc.type(Fl_Native_File_Chooser::BROWSE_SAVE_FILE);
+	fnfc.filter("Text\t*.txt\n"
+		"C Files\t*.{cxx,h,c}");
+	fnfc.directory("/var/tmp");           // default directory to use
+	// Show native chooser
+	switch (fnfc.show()) {
+	case -1: printf("ERROR: %s\n", fnfc.errmsg());    break;  // ERROR
+	case  1: printf("CANCEL\n");                      break;  // CANCEL
+	default: printf("PICKED: %s\n", fnfc.filename()); break;  // FILE CHOSEN
+	}
+
+}
+
 
 
  void Graph_lib::MenuBar::open_cb(Fl_Widget *, void *)

@@ -97,7 +97,7 @@ namespace Graph_lib {
 			:Widget(xy, w, h, s, 0) {}
 		Fl_Menu_Bar *fl;
 		void attach(Window& win);
-		
+		static void saveAS_cb(Fl_Widget *, void *);
 		static void open_cb(Fl_Widget*, void*);
 		static void close_cb(Fl_Widget*, void*);
 
