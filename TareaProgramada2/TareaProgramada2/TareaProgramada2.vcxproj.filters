@@ -53,5 +53,13 @@
     <ClInclude Include="Ventana.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tablahash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
