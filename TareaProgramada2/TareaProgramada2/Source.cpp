@@ -3,13 +3,14 @@
 #include <fstream>
 ifstream archivo;
 ofstream archivoO;
+string path="data.txt";
 HashMap  * tablaHash = new HashMap();
 
 bool insertar(string valor) {
 	if (tablaHash->verificarLlave(split(valor,';').at(0))) {
 		return false;
 	}
-	archivoO.open("data.txt", ios_base::app);
+	archivoO.open(path, ios_base::app);
 	archivoO << valor << endl;
 	tablaHash->put(valor);
 	archivoO.close();
@@ -19,7 +20,7 @@ bool eliminar(string key) {
 	if (!tablaHash->verificarLlave(key)) {
 		return false;
 	}
-	archivo.open("data.txt");
+	archivo.open(path);
 	archivoO.open("temp.txt");
 	string linea;
 	while (getline(archivo, linea)) {
@@ -30,8 +31,8 @@ bool eliminar(string key) {
 	tablaHash->remove(key);
 	archivo.close();
 	archivoO.close();
-	remove("data.txt");
-	rename("temp.txt", "data.txt");
+	remove(path.c_str());
+	rename("temp.txt", path.c_str());
 	return true;
 }
 bool modificar(string valor) {
@@ -40,7 +41,7 @@ bool modificar(string valor) {
 		return false;
 	}
 	tablaHash->replace(valor);
-	archivo.open("data.txt");
+	archivo.open(path);
 	archivoO.open("temp.txt");
 	string linea;
 	while (getline(archivo, linea)) {
@@ -53,8 +54,8 @@ bool modificar(string valor) {
 	}
 	archivo.close();
 	archivoO.close();
-	remove("data.txt");
-	rename("temp.txt", "data.txt");
+	remove(path.c_str());
+	rename("temp.txt", path.c_str());
 	return true;
 }
 bool consultar(string key) {
@@ -80,6 +81,7 @@ int main() {
 		tablaHash->put(info);
 	}
 	archivo.close();
+	eliminar("333333");
 	tablaHash->imprimir();
 	return 0;
 }
