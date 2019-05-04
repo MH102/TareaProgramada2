@@ -128,7 +128,7 @@ void Graph_lib::MenuBar::saveAS_cb(Fl_Widget *, void *)
 
 
 
- void Graph_lib::MenuBar::open_cb(Fl_Widget *, void *){}
+ void Graph_lib::MenuBar::open_cb(Fl_Widget *, void *)
  {
 	
 	 Fl_Native_File_Chooser fnfc;
