@@ -9,7 +9,7 @@ bool insertar(string valor) {
 	if (tablaHash->verificarLlave(split(valor,';').at(0))) {
 		return false;
 	}
-	archivoO.open("data.txt");
+	archivoO.open("data.txt", ios_base::app);
 	archivoO << valor << endl;
 	tablaHash->put(valor);
 	archivoO.close();
@@ -53,6 +53,8 @@ bool modificar(string valor) {
 	}
 	archivo.close();
 	archivoO.close();
+	remove("data.txt");
+	rename("temp.txt", "data.txt");
 	return true;
 }
 bool consultar(string key) {
@@ -78,5 +80,6 @@ int main() {
 		tablaHash->put(info);
 	}
 	archivo.close();
+	tablaHash->imprimir();
 	return 0;
 }
