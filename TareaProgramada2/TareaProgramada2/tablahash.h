@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <iostream>
 using namespace std;
 vector<string> split(string cadena, char divisor) {
 	vector<string> vec;
@@ -38,6 +39,13 @@ public:
 	string getFecha() {
 		return fecha;
 	}
+	void imprimir() {
+		cout << "Cedula: " << key << endl;
+		cout << "Nombre: " << nombre << endl;
+		cout << "Primer Apellido: " << primerA << endl;
+		cout << "Segundo Apellido: " << segundoA << endl;
+		cout << "Fecha: " << fecha << endl;
+	}
 
 
 private:
@@ -62,7 +70,7 @@ public:
 	}
 	bool verificarLlave(string key) {
 		for (int i = 0; i < table.size(); i++) {
-			if (table.at(i)->getKey == key) {
+			if (table.at(i)->getKey() == key) {
 				return true;
 			}
 		}
@@ -97,7 +105,7 @@ public:
 	bool replace(string valor) {
 		vector<string> vec = split(valor, ';');
 		for (int i = 0; i < table.size(); i++) {
-			if (table.at(i)->getKey == vec.at(0)) {
+			if (table.at(i)->getKey() == vec.at(0)) {
 				HashNode * nuevo = new HashNode(vec.at(0), vec.at(1), vec.at(2), vec.at(3), vec.at(4));
 				delete(table.at(i));
 				table.at(i) = nuevo;
@@ -108,14 +116,19 @@ public:
 	}
 	bool remove(string key) {
 		for (int i = 0; i < table.size(); i++) {
-			if (table.at(i)->getKey == key) {
+			if (table.at(i)->getKey() == key) {
 				table.erase(table.begin() + i);
 				return true;
 			}
 		}
 		return false;
 	}
-
+	void imprimir() {
+		for (int i = 0; i < table.size(); i++) {
+			cout << "----------------Hash Node " << i << "----------------" << endl;
+			table.at(i)->imprimir();
+		}
+	}
 private:
 	vector<HashNode*> table;
 };
