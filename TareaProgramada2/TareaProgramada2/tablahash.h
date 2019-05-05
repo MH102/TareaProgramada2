@@ -161,16 +161,13 @@ public:
 			a->replaceVal(nuevo);
 			return to_string(colisiones);
 		}
-		return "false";
+		return "-1";
 	}
 	string remove(string cedula) {
 		if (verificarCedula(cedula)) {
 			int key = hashFunc(cedula);
 			HashNode * a = table[key];
 			int colisiones = 0;
-			if (!a) {
-				return "false";
-			}
 			HashNode * b = NULL;
 			while (a) {
 				if (a->cedula != cedula) {
@@ -197,7 +194,7 @@ public:
 				}
 			}
 		}
-		return "false";
+		return "-1";
 	}
 	void imprimir() {
 		for (int i = 0; i < size; i++) {

@@ -42,37 +42,42 @@ void guardarTablaComo(string pathC) {
 }
 bool insertar(string valor) {
 	string resultado = tablaHash->put(valor);
+	if (resultado == "-1") {
+		return false;
+	}
+	string posicion = split(resultado, ';').at(0);
+	string colisiones = split(resultado, ';').at(1);
 	cout << "Insercion: " << resultado << endl;
 	return true;
 }
 bool eliminar(string cedula) {
-	if (!tablaHash->verificarCedula(cedula)) {
+	string colisiones = tablaHash->remove(cedula);
+	if (colisiones == "-1") {
 		return false;
 	}
-	string resultado = tablaHash->remove(cedula);
-	cout << "Eliminacion: " << resultado << endl;
+	cout << "Eliminacion: " << colisiones << endl;
 	return true;
 }
 bool modificar(string valor) {
 	vector<string> vec = split(valor, ';');
-	if (!tablaHash->verificarCedula(vec.at(0))) {
+	string colisiones = tablaHash->replace(valor);
+	if (colisiones == "-1") {
 		return false;
 	}
-	string resultado = tablaHash->replace(valor);
-	cout << "Modificacion: " << resultado << endl;
+	cout << "Modificacion: " << colisiones << endl;
 	return true;
 }
 bool consultar(string cedula) {
-	string resultado = tablaHash->get(cedula);
-	if (resultado == "false") {
+	string colisiones = tablaHash->get(cedula);
+	if (colisiones == "false") {
 		return false;
 	}
-	vector<string> vec = split(resultado, ';');
+	vector<string> vec = split(colisiones, ';');
 	string nombre = vec.at(1);
 	string primerA = vec.at(2);
 	string segundoA = vec.at(3);
 	string fecha = vec.at(4);
-	cout << "Consulta: " << resultado << endl;
+	cout << "Consulta: " << colisiones << endl;
 	return true;
 }
 int main() {
