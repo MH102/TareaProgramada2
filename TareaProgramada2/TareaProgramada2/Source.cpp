@@ -3,10 +3,23 @@
 #include <fstream>
 ifstream archivo;
 ofstream archivoO;
-string path="data.txt";
+string path;
 HashMap  * tablaHash = new HashMap();
 
 
+bool abrir(string a) {
+	path = a;
+	archivo.open(path);
+	if (archivo.fail()) {
+		return false;
+	}
+	string info;
+	while (getline(archivo, info)) {
+		tablaHash->put(info);
+	}
+	archivo.close();
+	return true;
+}
 void guardarTabla() {
 	archivoO.open(path);
 	for (int i = 0; i < tablaHash->getTabla().size(); i++) {
@@ -55,21 +68,13 @@ bool consultar(string key) {
 }
 int main() {
 	using namespace Graph_lib;
-	archivo.open(path);
-	if (archivo.fail()) {
-		return -1;
-	}
-	string info;
-	while (getline(archivo, info)) {
-		tablaHash->put(info);
-	}
-	archivo.close();
+	abrir("data.txt");
 	/*
 	insertar("333333;Ana Elena;Rivera;Solano;11/4/1999");
 	insertar("444444;Ana Elena;Rivera;Solano;11/4/1999");
 	modificar("111111;Ana Elena;Rivera;Solano;11/4/2010");
-	tablaHash->imprimir();
 	guardarTablaComo("data2.txt");
 	*/
+	tablaHash->imprimir();
 	return 0;
 }
