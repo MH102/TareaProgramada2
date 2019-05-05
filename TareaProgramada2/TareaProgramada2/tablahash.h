@@ -128,23 +128,24 @@ public:
 	string put(string valor) {
 		vector<string> vec = split(valor, ';');
 		if (verificarCedula(vec.at(0))) {
-			return "false";
+			return "-1";
 		}
 		int key = hashFunc(vec.at(0));
 		HashNode * nuevo = new HashNode(key,vec.at(0), vec.at(1), vec.at(2), vec.at(3), vec.at(4));
 		if (table[key] == NULL) {
 			table[key] = nuevo;
-			return "true";
+			return to_string(key) + ";" + "0";
 		}
 		else {
 			HashNode * a = table[key];
-			int colisiones = 0;
+			int colisiones = 1;
 			while (a->next) {
 				a = a->next;
 				colisiones++;
 			}
 			a->setNext(nuevo);
-			return key+";"+colisiones;
+			cout << colisiones << endl;
+			return to_string(key)+";"+to_string(colisiones);
 		}
 	}
 	string replace(string valor) {
@@ -183,8 +184,14 @@ public:
 						delete(a);
 					}
 					else {
+						if (a->next) {
+							table[key] = a->next;
+						}
+						else {
+							table[key] = 0;
+						}
 						delete(a);
-						table[key] = 0;
+						
 					}
 					return to_string(colisiones);
 				}

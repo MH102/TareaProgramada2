@@ -41,17 +41,16 @@ void guardarTablaComo(string pathC) {
 	}
 }
 bool insertar(string valor) {
-	if (tablaHash->verificarCedula(split(valor,';').at(0))) {
-		return false;
-	}
-	tablaHash->put(valor);
+	string resultado = tablaHash->put(valor);
+	cout << "Insercion: " << resultado << endl;
 	return true;
 }
 bool eliminar(string cedula) {
 	if (!tablaHash->verificarCedula(cedula)) {
 		return false;
 	}
-	tablaHash->remove(cedula);
+	string resultado = tablaHash->remove(cedula);
+	cout << "Eliminacion: " << resultado << endl;
 	return true;
 }
 bool modificar(string valor) {
@@ -59,20 +58,21 @@ bool modificar(string valor) {
 	if (!tablaHash->verificarCedula(vec.at(0))) {
 		return false;
 	}
-	tablaHash->replace(valor);
+	string resultado = tablaHash->replace(valor);
+	cout << "Modificacion: " << resultado << endl;
 	return true;
 }
 bool consultar(string cedula) {
-	string consulta = tablaHash->get(cedula);
-	if (consulta == "false") {
+	string resultado = tablaHash->get(cedula);
+	if (resultado == "false") {
 		return false;
 	}
-	vector<string> vec = split(consulta, ';');
+	vector<string> vec = split(resultado, ';');
 	string nombre = vec.at(1);
 	string primerA = vec.at(2);
 	string segundoA = vec.at(3);
 	string fecha = vec.at(4);
-	cout << "Colisiones: " << consulta << endl;
+	cout << "Consulta: " << resultado << endl;
 	return true;
 }
 int main() {
@@ -82,8 +82,14 @@ int main() {
 	insertar("333333;Ana Elena;Rivera;Solano;11/4/1999");
 	insertar("444444;Ana Elena;Rivera;Solano;11/4/1999");
 	modificar("111111;Ana Elena;Rivera;Solano;11/4/2010");
+	insertar("211111;Ana Elena;Rivera;Solano;11/4/2010");
+	insertar("311111;Ana Elena;Rivera;Solano;11/4/2010");
 	eliminar("222222");
 	guardarTablaComo("data2.txt");
+	consultar("333333");
+	tablaHash->imprimir();
+	eliminar("211111");
+
 	tablaHash->imprimir();
 	return 0;
 }
