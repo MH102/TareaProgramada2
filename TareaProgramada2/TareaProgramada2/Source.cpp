@@ -6,7 +6,6 @@ ofstream archivoO;
 string path;
 HashMap  * tablaHash = new HashMap();
 
-
 bool abrir(string a) {
 	path = a;
 	archivo.open(path);
@@ -42,34 +41,45 @@ void guardarTablaComo(string pathC) {
 }
 bool insertar(string valor) {
 	string resultado = tablaHash->put(valor);
+	string mensaje;
 	if (resultado == "-1") {
+		mensaje = "Insercion fallida";
 		return false;
 	}
 	string posicion = split(resultado, ';').at(0);
 	string colisiones = split(resultado, ';').at(1);
+	mensaje = "Insercion exitosa en posicion " + posicion + " con " + colisiones + "colisiones";
 	cout << "Insercion: " << resultado << endl;
 	return true;
 }
 bool eliminar(string cedula) {
 	string colisiones = tablaHash->remove(cedula);
+	string mensaje;
 	if (colisiones == "-1") {
+		mensaje = "Registro no existe";
 		return false;
 	}
+	mensaje = "Registro eliminado con " + colisiones + " colisiones";
 	cout << "Eliminacion: " << colisiones << endl;
 	return true;
 }
 bool modificar(string valor) {
 	vector<string> vec = split(valor, ';');
 	string colisiones = tablaHash->replace(valor);
+	string mensaje;
 	if (colisiones == "-1") {
+		mensaje = "Registro no existe";
 		return false;
 	}
+	mensaje = "Actualizacion exitosa con " + colisiones + " colisiones";
 	cout << "Modificacion: " << colisiones << endl;
 	return true;
 }
 bool consultar(string cedula) {
 	string colisiones = tablaHash->get(cedula);
+	string mensaje;
 	if (colisiones == "false") {
+		mensaje = "Cedula no existe";
 		return false;
 	}
 	vector<string> vec = split(colisiones, ';');
@@ -77,12 +87,15 @@ bool consultar(string cedula) {
 	string primerA = vec.at(2);
 	string segundoA = vec.at(3);
 	string fecha = vec.at(4);
+	mensaje = "Colisiones encontradas: " + colisiones;
 	cout << "Consulta: " << colisiones << endl;
 	return true;
 }
 int main() {
 	using namespace Graph_lib;
 	abrir("data.txt");
+
+	cout << path.size() << endl;
 
 	insertar("333333;Ana Elena;Rivera;Solano;11/4/1999");
 	insertar("444444;Ana Elena;Rivera;Solano;11/4/1999");
