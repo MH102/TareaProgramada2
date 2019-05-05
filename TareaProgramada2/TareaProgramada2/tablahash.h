@@ -39,6 +39,9 @@ public:
 	string getFecha() {
 		return fecha;
 	}
+	string getValor() {
+		return key + ";" + nombre + ";" + primerA + ";" + segundoA + ";" + fecha;
+	}
 	void imprimir() {
 		cout << "Cedula: " << key << endl;
 		cout << "Nombre: " << nombre << endl;
@@ -128,6 +131,9 @@ public:
 			cout << "----------------Hash Node " << i << "----------------" << endl;
 			table.at(i)->imprimir();
 		}
+	}
+	vector<HashNode*> getTabla() {
+		return table;
 	}
 private:
 	vector<HashNode*> table;

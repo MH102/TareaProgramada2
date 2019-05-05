@@ -6,33 +6,31 @@ ofstream archivoO;
 string path="data.txt";
 HashMap  * tablaHash = new HashMap();
 
+
+void guardarTabla() {
+	archivoO.open(path);
+	for (int i = 0; i < tablaHash->getTabla().size(); i++) {
+		archivoO << tablaHash->getTabla().at(i)->getValor() << endl;
+	}
+}
+void guardarTablaComo(string pathC) {
+	archivoO.open(pathC);
+	for (int i = 0; i < tablaHash->getTabla().size(); i++) {
+		archivoO << tablaHash->getTabla().at(i)->getValor() << endl;
+	}
+}
 bool insertar(string valor) {
 	if (tablaHash->verificarLlave(split(valor,';').at(0))) {
 		return false;
 	}
-	archivoO.open(path, ios_base::app);
-	archivoO << valor << endl;
 	tablaHash->put(valor);
-	archivoO.close();
 	return true;
 }
 bool eliminar(string key) {
 	if (!tablaHash->verificarLlave(key)) {
 		return false;
 	}
-	archivo.open(path);
-	archivoO.open("temp.txt");
-	string linea;
-	while (getline(archivo, linea)) {
-		if (split(linea, ';').at(0) != key) {
-			archivoO << linea << endl;
-		}
-	}
 	tablaHash->remove(key);
-	archivo.close();
-	archivoO.close();
-	remove(path.c_str());
-	rename("temp.txt", path.c_str());
 	return true;
 }
 bool modificar(string valor) {
@@ -41,21 +39,6 @@ bool modificar(string valor) {
 		return false;
 	}
 	tablaHash->replace(valor);
-	archivo.open(path);
-	archivoO.open("temp.txt");
-	string linea;
-	while (getline(archivo, linea)) {
-		if (split(linea,';').at(0) != split(valor,';').at(0)) {
-			archivoO << linea << endl;
-		}
-		else {
-			archivoO << valor << endl;
-		}
-	}
-	archivo.close();
-	archivoO.close();
-	remove(path.c_str());
-	rename("temp.txt", path.c_str());
 	return true;
 }
 bool consultar(string key) {
@@ -72,7 +55,7 @@ bool consultar(string key) {
 }
 int main() {
 	using namespace Graph_lib;
-	archivo.open("data.txt");
+	archivo.open(path);
 	if (archivo.fail()) {
 		return -1;
 	}
@@ -81,7 +64,12 @@ int main() {
 		tablaHash->put(info);
 	}
 	archivo.close();
-	eliminar("333333");
+	/*
+	insertar("333333;Ana Elena;Rivera;Solano;11/4/1999");
+	insertar("444444;Ana Elena;Rivera;Solano;11/4/1999");
+	modificar("111111;Ana Elena;Rivera;Solano;11/4/2010");
 	tablaHash->imprimir();
+	guardarTablaComo("data2.txt");
+	*/
 	return 0;
 }
