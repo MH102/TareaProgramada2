@@ -19,14 +19,16 @@ vector<string> split(string cadena, char divisor) {
 }
 class HashNode {
 public:
-	HashNode(string key, string nombre, string primerA, string segundoA,string fecha) :
-		key(key), nombre(nombre), primerA(primerA),segundoA(segundoA),fecha(fecha){
+	HashNode(int key,string cedula, string nombre, string primerA, string segundoA,string fecha) :
+		key(key), cedula(cedula), nombre(nombre), primerA(primerA),segundoA(segundoA),fecha(fecha),next(NULL){
 	}
 
-	string getKey() {
+	int getKey() {
 		return key;
 	}
-
+	string getCedula() {
+		return cedula;
+	}
 	string getNombre() {
 		return nombre;
 	}
@@ -40,10 +42,24 @@ public:
 		return fecha;
 	}
 	string getValor() {
-		return key + ";" + nombre + ";" + primerA + ";" + segundoA + ";" + fecha;
+		string text = cedula + ";" + nombre + ";" + primerA + ";" + segundoA + ";" + fecha;
+		return text;
+	}
+	void replaceVal(HashNode rep) {
+		cedula = rep.cedula;
+		nombre = rep.nombre;
+		primerA = rep.primerA;
+		segundoA = rep.segundoA;
+		fecha = rep.fecha;
+	}
+	HashNode * getNext() {
+		return next;
+	}
+	void setNext(HashNode * nuevo) {
+		next = nuevo;
 	}
 	void imprimir() {
-		cout << "Cedula: " << key << endl;
+		cout << "Cedula: " << cedula << endl;
 		cout << "Nombre: " << nombre << endl;
 		cout << "Primer Apellido: " << primerA << endl;
 		cout << "Segundo Apellido: " << segundoA << endl;
@@ -53,88 +69,156 @@ public:
 
 private:
 	// key-value pair
-	string key;
+	int key;
+	string cedula;
 	string nombre;
 	string primerA;
 	string segundoA;
 	string fecha;
+	HashNode * next;
+	friend class HashMap;
 };
 
 class HashMap{
 public:
 	HashMap() {
+		table = new HashNode*[size];
+		for (int i = 0; i < size;i++) {
+			table[i] = 0;
+		}
 	}
 
 	~HashMap() {
 		// destroy all buckets one by one
-		for (int i = 0; i < table.size(); i++) {
-			delete(table.at(i));
-		}
-	}
-	bool verificarLlave(string key) {
-		for (int i = 0; i < table.size(); i++) {
-			if (table.at(i)->getKey() == key) {
-				return true;
-			}
-		}
-		return false;
-	}
-	string get(string key) {
-		string final = "";
-		for (int i = 0; i < table.size();i++) {
-			if (table.at(i)->getKey() == key) {
-				final += table.at(i)->getKey() + ";";
-				vector<string> vec = split(table.at(i)->getNombre(), ' ');
-				for (int j = 0; j < vec.size(); i++) {
-					final += vec.at(j) + ";";
+		for (int i = 0; i < size; i++) {
+			HashNode * a = table[i];
+			while (a) {
+				HashNode * b = a;
+				while (b->next) {
+					b = b->next;
 				}
-				final += table.at(i)->getPrimerA() +";";
-				final += table.at(i)->getSegundoA() + ";";
-				final += table.at(i)->getFecha();
-				break;
+				delete(b);
 			}
 		}
-		return final;
 	}
-	bool put(string valor) {
-		vector<string> vec = split(valor, ';');
-		if (verificarLlave(vec.at(0))) {
+	bool verificarCedula(string cedula) {
+		int key = hashFunc(cedula);
+		HashNode * a = table[key];
+		while (a && a->cedula != cedula) {
+			a = a->next;
+		}
+		if (a == NULL) {
 			return false;
 		}
-		HashNode * nuevo = new HashNode(vec.at(0), vec.at(1), vec.at(2), vec.at(3), vec.at(4));
-		table.push_back(nuevo);
 		return true;
 	}
-	bool replace(string valor) {
-		vector<string> vec = split(valor, ';');
-		for (int i = 0; i < table.size(); i++) {
-			if (table.at(i)->getKey() == vec.at(0)) {
-				HashNode * nuevo = new HashNode(vec.at(0), vec.at(1), vec.at(2), vec.at(3), vec.at(4));
-				delete(table.at(i));
-				table.at(i) = nuevo;
-				return true;
-			}
+	string get(string cedula) {
+		int key = hashFunc(cedula);
+		HashNode * a = table[key];
+		int colisiones = 0;
+		while (cedula != a->cedula && a) {
+			a = a->next;
+			colisiones++;
 		}
-		return false;
+		if (!a) {
+			return "false";
+		}
+		return a->getValor();
 	}
-	bool remove(string key) {
-		for (int i = 0; i < table.size(); i++) {
-			if (table.at(i)->getKey() == key) {
-				table.erase(table.begin() + i);
-				return true;
+	string put(string valor) {
+		vector<string> vec = split(valor, ';');
+		if (verificarCedula(vec.at(0))) {
+			return "false";
+		}
+		int key = hashFunc(vec.at(0));
+		HashNode * nuevo = new HashNode(key,vec.at(0), vec.at(1), vec.at(2), vec.at(3), vec.at(4));
+		if (table[key] == NULL) {
+			table[key] = nuevo;
+			return "true";
+		}
+		else {
+			HashNode * a = table[key];
+			int colisiones = 0;
+			while (a->next) {
+				a = a->next;
+				colisiones++;
+			}
+			a->setNext(nuevo);
+			return key+";"+colisiones;
+		}
+	}
+	string replace(string valor) {
+		vector<string> vec = split(valor, ';');
+		if (verificarCedula(vec.at(0))) {
+			int key = hashFunc(vec.at(0));
+			int colisiones = 0;
+			HashNode * a = table[key];
+			HashNode nuevo(key,vec.at(0), vec.at(1), vec.at(2), vec.at(3), vec.at(4));
+			while (a->cedula != vec.at(0)) {
+				a = a->next;
+			}
+			a->replaceVal(nuevo);
+			return to_string(colisiones);
+		}
+		return "false";
+	}
+	string remove(string cedula) {
+		if (verificarCedula(cedula)) {
+			int key = hashFunc(cedula);
+			HashNode * a = table[key];
+			int colisiones = 0;
+			if (!a) {
+				return "false";
+			}
+			HashNode * b = NULL;
+			while (a) {
+				if (a->cedula != cedula) {
+					b = a;
+					a = a->next;
+					colisiones++;
+				}
+				else {
+					if (b) {
+						b->next = a->next;
+						delete(a);
+					}
+					else {
+						delete(a);
+						table[key] = 0;
+					}
+					return to_string(colisiones);
+				}
 			}
 		}
-		return false;
+		return "false";
 	}
 	void imprimir() {
-		for (int i = 0; i < table.size(); i++) {
-			cout << "----------------Hash Node " << i << "----------------" << endl;
-			table.at(i)->imprimir();
+		for (int i = 0; i < size; i++) {
+			if (table[i]) {
+				HashNode * a = table[i];
+				if (a!=NULL) {
+					cout << "----------------Key " << a->key << "----------------" << endl;
+				}
+				while (a!=NULL) {
+					cout << "<< Info HashNode >>" << endl;
+					a->imprimir();
+					a = a->next;
+					cout << "<< End HashNode >>" << endl << endl;
+				}
+			}
 		}
 	}
-	vector<HashNode*> getTabla() {
+	HashNode** getTabla() {
 		return table;
 	}
+	int getSize() {
+		return size;
+	}
+	int hashFunc(string cedula) {
+		int key = stoi(cedula) % 10;
+		return key;
+	}
 private:
-	vector<HashNode*> table;
+	int size = 10;
+	HashNode** table;
 };
