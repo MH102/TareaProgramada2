@@ -75,7 +75,10 @@ namespace Graph_lib {
 		int get_int();
 		string get_string();
 		void deactivate();
+		void activate();
 		void attach(Window& win);
+		void clean(); 
+		void put(const string& s);
 	};
 
 	//------------------------------------------------------------------------------

@@ -33,11 +33,28 @@ void Graph_lib::In_box::deactivate()
 	pw->deactivate();
 }
 
+void Graph_lib::In_box::activate()
+{
+	pw->activate();
+}
+
 void In_box::attach(Graph_lib::Window& win)
 {
 	pw = new Fl_Input(loc.x, loc.y, width, height, label.c_str());
 	
 	own = &win;
+}
+
+void Graph_lib::In_box::clean()
+{
+	Fl_Input&po=reference_to<Fl_Input>(pw);
+	po.value("");
+}
+
+void Graph_lib::In_box::put(const string& s)
+{
+
+	reference_to<Fl_Input>(pw).value(s.c_str());
 }
 
 void Out_box::put(int i)

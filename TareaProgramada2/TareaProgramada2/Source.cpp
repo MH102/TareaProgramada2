@@ -1,7 +1,7 @@
 #include "Ventana.h"
-#include "tablahash.h"
-#include <fstream>
-ifstream archivo;
+
+
+/*
 ofstream archivoO;
 string path;
 HashMap  * tablaHash = new HashMap();
@@ -90,10 +90,10 @@ bool consultar(string cedula) {
 	mensaje = "Colisiones encontradas: " + colisiones;
 	cout << "Consulta: " << colisiones << endl;
 	return true;
-}
+}*/
 int main() {
 	using namespace Graph_lib;
-	abrir("data.txt");
+	/*abrir("data.txt");
 
 	cout << path.size() << endl;
 
@@ -108,6 +108,9 @@ int main() {
 	tablaHash->imprimir();
 	eliminar("211111");
 
-	tablaHash->imprimir();
+	tablaHash->imprimir();*/
+	Ventana win(Point(200, 200), 600, 500, "Simple Window");
+
+	win.wait_for_button();
 	return 0;
 }
