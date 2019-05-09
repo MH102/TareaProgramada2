@@ -10,8 +10,10 @@ struct Simple_window : Window {
 	Simple_window(Point xy, int w, int h, const string& title)
 		: Window(xy, w, h, title),
 		button_pushed(false),
-		next_button(Point(x_max() - 70, 0), 70, 20, "Next", cb_next) {
+		next_button(Point(85, 40), 70, 20, "Aceptar", cb_next),
+	error(Point(0,20),"¡Error!, no se ha abierto ningún archivo"){
 		attach(next_button);
+		attach(error);
 	}
 
 	void wait_for_button()
@@ -25,6 +27,7 @@ struct Simple_window : Window {
 	}
 
 	Button next_button;
+	Text error;
 private:
 	bool button_pushed;
 

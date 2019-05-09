@@ -5,6 +5,7 @@
 #include"VInsertar.h"
 #include "VEliminar.h"
 #include "VModificar.h"
+#include "Simple_window.h"
 #include <fstream>
 using namespace Graph_lib;
 struct Ventana :
@@ -78,23 +79,47 @@ struct Ventana :
 
 	void consulta() {
 		salida.put("");
-		VConsulta vcon(Point(200, 200), 500, 500, "Consulta",tablaHash);
-		vcon.wait_for_button();
+		if (!abierto) {
+			Simple_window win(Point(500, 500), 250, 80, "Error");
+			win.wait_for_button();
+		}
+		else {
+			VConsulta vcon(Point(200, 200), 500, 500, "Consulta", tablaHash);
+			vcon.wait_for_button();
+		}
 	}
 	void inserta() {
 		salida.put("");
-		VInsertar vinsert(Point(200, 200), 500, 400, "Insertar", tablaHash);
-		vinsert.wait_for_button();
+		if (!abierto) {
+			Simple_window win(Point(500, 500), 250, 80, "Error");
+			win.wait_for_button();
+		}
+		else {
+			VInsertar vinsert(Point(200, 200), 500, 400, "Insertar", tablaHash);
+			vinsert.wait_for_button();
+		}
 	}
 	void elimina() {
 		salida.put("");
-		VEliminar velimina(Point(200, 200), 500, 400, "Eliminar", tablaHash);
-		velimina.wait_for_button();
+		if (!abierto) {
+			Simple_window win(Point(500, 500), 250, 80, "Error");
+			win.wait_for_button();
+		}
+		else {
+			VEliminar velimina(Point(200, 200), 500, 400, "Eliminar", tablaHash);
+			velimina.wait_for_button();
+		}
 	}
 	void modifica() {
 		salida.put("");
-		VModificar vModifica(Point(200, 200), 500, 400, "Modificar", tablaHash);
-		vModifica.wait_for_button();
+		if (!abierto) {
+			Simple_window win(Point(500, 500), 250, 80, "Error");
+			win.wait_for_button();
+		}
+		else {
+			VModificar vModifica(Point(200, 200), 500, 400, "Modificar", tablaHash);
+			vModifica.wait_for_button();
+		}
 	}
 	void guardarcm() {
 
