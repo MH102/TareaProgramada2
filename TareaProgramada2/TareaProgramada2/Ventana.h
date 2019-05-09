@@ -203,6 +203,7 @@ public:
 	Menu personasM;
 	string path;
 	Text bienmsj;
+	Text msj;
 	bool abierto=false;
 	Out_box salida;
 	Ventana(Point xy, int w, int h, const string& title)
@@ -219,7 +220,8 @@ public:
 		modificarBtn(Point(10, 50), 70, 20, "Modificar", modificar_cb),
 		personasM(Point(300, 200), 105, 20, Menu::vertical, "Personas"),
 		salida(Point(150, 378), 250, 20, ""),
-		bienmsj(Point(200,100),"Bienvenido")
+		bienmsj(Point(200,100),"Bienvenido"),
+		msj(Point(125,150),"Seleccione un archivo del tipo .csv sobre el cual trabajar")
 	{
 		archivoM.attach(abrirBtn);
 		archivoM.attach(guardarBtn);
@@ -233,6 +235,7 @@ public:
 		personasM.attach(modificarBtn);
 		bienmsj.set_font_size(40);
 		attach(bienmsj);
+		attach(msj);
 		attach(personasM);
 	}
 	void wait_for_button()
