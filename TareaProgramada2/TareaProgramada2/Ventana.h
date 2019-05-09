@@ -29,6 +29,10 @@ struct Ventana :
 		case  1: printf("CANCEL\n");                      break;  // CANCEL
 		default: 
 			path = fnfc.filename();
+			if (split(path,'.').at(1) != "csv") {
+				salida.put("Tipo de archivo invalido");
+				return;
+			}
 			ifstream archivo;
 			archivo.open(path);
 			if (archivo.fail()) {
