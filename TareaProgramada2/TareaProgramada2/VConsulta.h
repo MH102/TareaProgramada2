@@ -2,6 +2,14 @@
 #include "GUI.h"
 #include "Ventana.h"
 using namespace Graph_lib;
+bool validarNumStoi(string tira) {
+	for (int i = 0; i < tira.size(); i++) {
+		if (tira.at(i) != '0' && tira.at(i) != '1' && tira.at(i) != '2' && tira.at(i) != '3' && tira.at(i) != '4' && tira.at(i) != '5' && tira.at(i) != '6' && tira.at(i) != '7' && tira.at(i) != '8' && tira.at(i) != '9') {
+			return false;
+		}
+	}
+	return true;
+}
 struct VConsulta :
 	public Window
 {
@@ -12,7 +20,11 @@ struct VConsulta :
 		nacimiento.clean();
 		string cedu = cedula.get_string();
 		if (cedu.size()!= 9) {
-			salida.put("Cedula invalida");
+			salida.put("Por favor ingrese una cedula valida (9 digitos)");
+			return;
+		}
+		if (!validarNumStoi(cedu)) {
+			salida.put("Por favor ingrese una cedula valida (Solo numeros)");
 			return;
 		}
 		if (!tabla.verificarCedula(cedu)) {
@@ -68,14 +80,14 @@ public:
 	VConsulta(Point xy, int w, int h, const string& title,HashMap& tablaHash)
 		: Window(xy, w, h, title),
 		button_pushed(false),
-		BtnConsulta(Point(240, 100), 70, 20, "Consultar", consulta_cb),
-		limpiarBtn(Point(200, 275), 70, 20, "Limpiar", limpiar_cb),
-		cancelarBtn(Point(300, 275), 70, 20, "Cancelar", cancelar_cb),
-		cedula(Point(150, 100), 80, 20, "Cedula"),
-		nombre(Point(150, 130), 100, 20, "Nombre"),
-		primerApellido(Point(150, 160), 100, 20, "Primer Apellido"),
-		segundoApellido(Point(150, 190), 100, 20, "Segundo Apellido"),
-		nacimiento(Point(150, 220), 100, 20, "Fecha de nacimiento"),
+		BtnConsulta(Point(370, 100), 70, 20, "Consultar", consulta_cb),
+		limpiarBtn(Point(270, 275), 70, 20, "Limpiar", limpiar_cb),
+		cancelarBtn(Point(370, 275), 70, 20, "Cancelar", cancelar_cb),
+		cedula(Point(170, 100), 170, 20, "Cedula\t\t\t\t "),
+		nombre(Point(170, 130), 170, 20, "Nombre\t\t\t\t"),
+		primerApellido(Point(170, 160), 170, 20, "Primer Apellido\t\t     "),
+		segundoApellido(Point(170, 190), 170, 20, "Segundo Apellido\t  "),
+		nacimiento(Point(170, 220), 170, 20, "Fecha de nacimiento\t"),
 		tabla(tablaHash),
 		salida(Point(0, 478), 500, 20, "")
 		 {

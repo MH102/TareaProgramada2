@@ -2,28 +2,86 @@
 #include "GUI.h"
 #include "Ventana.h"
 using namespace Graph_lib;
+int validarFecha(int dd, int mm, int yy)
+{
+
+	if (yy < 0)
+		return 1;
+
+	if (mm < 0 || mm > 12)
+		return 1;
+
+	if (mm == 2)
+	{
+		if (yy % 4 == 0)
+		{
+			if (dd > 29 || dd < 0)
+				return 1;
+		}
+		else
+		{
+			if (dd > 28 || dd < 0)
+				return 1;
+		}
+	}
+	else if (mm == 1 || mm == 3 || mm == 5 || mm == 7 || mm == 8 || mm == 10 || mm == 12)
+	{
+		if (dd > 31 || dd < 0)
+			return 1;
+	}
+	else
+	{
+		if (dd > 30 || dd < 0)
+			return 1;
+	}
+
+	return 0;
+}
 struct VInsertar :
 	public Window
 {
 	void insertar() {
 		if (cedula.get_string().size() != 9) {
-			salida.put("Cedula invalida");
+			salida.put("Por favor ingrese una cedula valida (9 digitos)");
 			return;
 		}
-		if (nombre.get_string().size() == 0) {
+		if (!validarNumStoi(cedula.get_string())) {
+			salida.put("Por favor ingrese una cedula valida (Solo numeros)");
+			return;
+		}
+		if(nombre.get_string().size() == 0 || nombre.get_string().size() > 25) {
 			salida.put("Por favor ingrese el nombre");
 			return;
 		}
-		if (primerApellido.get_string().size() == 0) {
+		if (primerApellido.get_string().size() == 0 || primerApellido.get_string().size() > 25) {
 			salida.put("Por favor ingrese el primer apellido");
 			return;
 		}
-		if (segundoApellido.get_string().size() == 0) {
+		if (segundoApellido.get_string().size() == 0 || segundoApellido.get_string().size() > 25) {
 			salida.put("Por favor ingrese el segundo apellido");
 			return;
 		}
 		if (nacimiento.get_string().size() == 0) {
 			salida.put("Por favor ingrese la fecha de nacimiento");
+			return;
+		}
+		if (nacimiento.get_string().size() != 10) {
+			salida.put("Por favor ingrese una fecha valida (dd/mm/yyyy)");
+			return;
+		}
+		vector<string> vec = split(nacimiento.get_string(), '/');
+		if (vec.size() != 3) {
+			salida.put("Por favor ingrese una fecha valida (dd/mm/yyyy)");
+			return;
+		}
+		for (int i = 0;i < vec.size(); i++) {
+			if(!validarNumStoi(vec.at(i))) {
+				salida.put("Por favor ingrese una fecha valida (dd/mm/yyyy)");
+				return;
+			}
+		}
+		if (validarFecha(stoi(vec.at(0)), stoi(vec.at(1)), stoi(vec.at(2)))) {
+			salida.put("Por favor ingrese una fecha valida");
 			return;
 		}
 		string valor = cedula.get_string() +";"+nombre.get_string()+ ";" + primerApellido.get_string() + ";" + segundoApellido.get_string() + ";" + nacimiento.get_string();
@@ -75,14 +133,14 @@ public:
 	VInsertar(Point xy, int w, int h, const string& title, HashMap& tablaHash)
 		: Window(xy, w, h, title),
 		button_pushed(false),
-		BtnInsertar(Point(100, 275), 70, 20, "Insertar", consulta_cb),
-		limpiarBtn(Point(200, 275), 70, 20, "Limpiar", limpiar_cb),
-		cancelarBtn(Point(300, 275), 70, 20, "Cancelar", cancelar_cb),
-		cedula(Point(150, 100), 80, 20, "Cedula"),
-		nombre(Point(150, 130), 100, 20, "Nombre"),
-		primerApellido(Point(150, 160), 100, 20, "Primer Apellido"),
-		segundoApellido(Point(150, 190), 100, 20, "Segundo Apellido"),
-		nacimiento(Point(150, 220), 100, 20, "Fecha de nacimiento"),
+		BtnInsertar(Point(170, 275), 70, 20, "Insertar", consulta_cb),
+		limpiarBtn(Point(270, 275), 70, 20, "Limpiar", limpiar_cb),
+		cancelarBtn(Point(370, 275), 70, 20, "Cancelar", cancelar_cb),
+		cedula(Point(170, 100), 170, 20, "Cedula\t\t\t\t "),
+		nombre(Point(170, 130), 170, 20, "Nombre\t\t\t\t"),
+		primerApellido(Point(170, 160), 170, 20, "Primer Apellido\t\t     "),
+		segundoApellido(Point(170, 190), 170, 20, "Segundo Apellido\t  "),
+		nacimiento(Point(170, 220), 170, 20, "Fecha de nacimiento\t"),
 		tabla(tablaHash),
 		salida(Point(0, 378), 500, 20, "")
 	{

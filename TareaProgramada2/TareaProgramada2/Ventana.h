@@ -64,7 +64,7 @@ struct Ventana :
 	}
 	void inserta() {
 
-		VInsertar vinsert(Point(200, 200), 500, 400, "Consulta", tablaHash);
+		VInsertar vinsert(Point(200, 200), 500, 400, "Insertar", tablaHash);
 		vinsert.wait_for_button();
 	}
 	void elimina() {
@@ -153,9 +153,6 @@ public:
 		personasM.attach(modificarBtn);
 		attach(personasM);
 		tablaHash = HashMap();
-		
-		
-		
 	}
 	void wait_for_button()
 		// modified event loop
