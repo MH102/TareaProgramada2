@@ -6,6 +6,10 @@ struct VEliminar :
 	public Window
 {
 	void consulta() {
+		nombre.clean();
+		primerApellido.clean();
+		segundoApellido.clean();
+		nacimiento.clean();
 		string cedu = cedula.get_string();
 		
 		if (cedu.size() != 9) {

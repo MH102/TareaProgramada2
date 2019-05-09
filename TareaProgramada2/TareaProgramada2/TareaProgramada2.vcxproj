@@ -158,6 +158,7 @@
     <ClInclude Include="VEliminar.h" />
     <ClInclude Include="Ventana.h" />
     <ClInclude Include="VInsertar.h" />
+    <ClInclude Include="VModificar.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

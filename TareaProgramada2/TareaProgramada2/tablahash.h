@@ -93,11 +93,9 @@ public:
 		for (int i = 0; i < size; i++) {
 			HashNode * a = table[i];
 			while (a) {
-				HashNode * b = a;
-				while (b->next) {
-					b = b->next;
-				}
-				delete(b);
+				table[i] = a->next;
+				delete(a);
+				a = table[i];
 			}
 		}
 	}

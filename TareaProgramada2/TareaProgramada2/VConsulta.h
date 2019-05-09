@@ -6,6 +6,10 @@ struct VConsulta :
 	public Window
 {
 	void consul() {
+		nombre.clean();
+		primerApellido.clean();
+		segundoApellido.clean();
+		nacimiento.clean();
 		string cedu = cedula.get_string();
 		if (cedu.size()!= 9) {
 			salida.put("Cedula invalida");
@@ -25,9 +29,29 @@ struct VConsulta :
 		salida.put( "Colisiones encontradas: "+vec.at(5));
 		
 	}
-
+	void cancelar() {
+		cedula.clean();
+		nombre.clean();
+		primerApellido.clean();
+		segundoApellido.clean();
+		nacimiento.clean();
+		button_pushed = true;
+	}
+	void limpiar() {
+		cedula.clean();
+		nombre.clean();
+		primerApellido.clean();
+		segundoApellido.clean();
+		nacimiento.clean();
+	}
 	static void consulta_cb(Address, Address addr) {
 		static_cast<VConsulta*>(addr)->consul();
+	}
+	static void limpiar_cb(Address, Address addr) {
+		static_cast<VConsulta*>(addr)->limpiar();
+	}
+	static void cancelar_cb(Address, Address addr) {
+		static_cast<VConsulta*>(addr)->cancelar();
 	}
 	bool button_pushed;
 	In_box cedula;
@@ -39,10 +63,14 @@ struct VConsulta :
 	HashMap& tabla;
 public:
 	Button BtnConsulta;
+	Button limpiarBtn;
+	Button cancelarBtn;
 	VConsulta(Point xy, int w, int h, const string& title,HashMap& tablaHash)
 		: Window(xy, w, h, title),
 		button_pushed(false),
 		BtnConsulta(Point(240, 100), 70, 20, "Consultar", consulta_cb),
+		limpiarBtn(Point(200, 275), 70, 20, "Limpiar", limpiar_cb),
+		cancelarBtn(Point(300, 275), 70, 20, "Cancelar", cancelar_cb),
 		cedula(Point(150, 100), 80, 20, "Cedula"),
 		nombre(Point(150, 130), 100, 20, "Nombre"),
 		primerApellido(Point(150, 160), 100, 20, "Primer Apellido"),
@@ -58,6 +86,8 @@ public:
 		attach(nacimiento);
 		attach(BtnConsulta);
 		attach(salida);
+		attach(limpiarBtn);
+		attach(cancelarBtn);
 		nombre.deactivate();
 		primerApellido.deactivate();
 		segundoApellido.deactivate();

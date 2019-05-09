@@ -4,13 +4,14 @@
 #include "VConsulta.h"
 #include"VInsertar.h"
 #include "VEliminar.h"
+#include "VModificar.h"
 #include <fstream>
 using namespace Graph_lib;
 struct Ventana :
 	public Window
 {
 	void abrir() {
-
+		tablaHash.~HashMap();
 		Fl_Native_File_Chooser fnfc;
 		fnfc.title("Seleccione el archivo");
 		fnfc.type(Fl_Native_File_Chooser::BROWSE_FILE);
@@ -70,6 +71,10 @@ struct Ventana :
 		VEliminar velimina(Point(200, 200), 500, 400, "Eliminar", tablaHash);
 		velimina.wait_for_button();
 	}
+	void modifica() {
+		VModificar vModifica(Point(200, 200), 500, 400, "Modificar", tablaHash);
+		vModifica.wait_for_button();
+	}
 	void guardarcm() {
 
 		Fl_Native_File_Chooser fnfc;
@@ -106,6 +111,9 @@ struct Ventana :
 	static void eliminar_cb(Address, Address addr) {
 		static_cast<Ventana*>(addr)->elimina();
 	}
+	static void modificar_cb(Address, Address addr) {
+		static_cast<Ventana*>(addr)->modifica();
+	}
 	bool button_pushed;
 	HashMap tablaHash;
 public:
@@ -131,7 +139,7 @@ public:
 		consultarBtn(Point(10, 50), 70, 20, "Consultar", consultar_cb),
 		insertarBtn(Point(10, 50), 70, 20, "Insertar", insertar_cb),
 		eliminarBtn(Point(10, 50), 70, 20, "Eliminar", eliminar_cb),
-		modificarBtn(Point(10, 50), 70, 20, "Modificar", salir_cb),
+		modificarBtn(Point(10, 50), 70, 20, "Modificar", modificar_cb),
 		personasM(Point(300, 200), 105, 20, Menu::vertical, "Personas")
 		{
 		archivoM.attach(abrirBtn);
