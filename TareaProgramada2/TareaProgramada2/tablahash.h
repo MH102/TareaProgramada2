@@ -142,7 +142,6 @@ public:
 				colisiones++;
 			}
 			a->setNext(nuevo);
-			cout << colisiones << endl;
 			return to_string(key)+";"+to_string(colisiones);
 		}
 	}

@@ -10,7 +10,13 @@ using namespace Graph_lib;
 struct Ventana :
 	public Window
 {
-	void abrir() {
+	void abrir(bool test=false) {
+		if (test) {
+			abierto = true;
+			set_label("Menu Principal: " + split(path, '\\').back());
+			salida.put("Se ha abierto el archivo");
+			return;
+		}
 		tablaHash.~HashMap();
 		Fl_Native_File_Chooser fnfc;
 		fnfc.title("Seleccione el archivo");
@@ -21,57 +27,68 @@ struct Ventana :
 		switch (fnfc.show()) {
 		case -1: printf("ERROR: %s\n", fnfc.errmsg());    break;  // ERROR
 		case  1: printf("CANCEL\n");                      break;  // CANCEL
-		default: printf("PICKED: %s\n", fnfc.filename()); break;  // FILE CHOSEN
+		default: 
+			path = fnfc.filename();
+			ifstream archivo;
+			archivo.open(path);
+			if (archivo.fail()) {
+				return	;
+			}
+			string info;
+			while (getline(archivo, info)) {
+				tablaHash.put(info);
+			}
+			archivo.close();
+			abierto = true;
+			set_label("Menu Principal: " + split(path, '\\').back());
+			salida.put("Se ha abierto el archivo");
+			break;  // FILE CHOSEN
 		}
-		path = fnfc.filename();
-		ifstream archivo;
-		archivo.open(path);
-		if (archivo.fail()) {
-			cout << "Error";
-			return;
-		}
-		string info;
-		while (getline(archivo, info)) {
-			tablaHash.put(info);
-		}
-		archivo.close();
-		cout << "exito";
 
 	}
 	void guardar() {
-		ofstream archivoO;
-		archivoO.open(path);
-		if (archivoO.fail()) {
+		if (!abierto) {
+			guardarcm();
 			return;
 		}
-		for (int i = 0; i < tablaHash.getSize(); i++) {
-			HashNode * a = tablaHash.getTabla()[i];
-			while (a != NULL) {
-				archivoO << a->getValor() << endl;
-				a = a->getNext();
+		else {
+			ofstream archivoO;
+			archivoO.open(path);
+			if (archivoO.fail()) {
+				return;
 			}
+			for (int i = 0; i < tablaHash.getSize(); i++) {
+				HashNode * a = tablaHash.getTabla()[i];
+				while (a != NULL) {
+					archivoO << a->getValor() << endl;
+					a = a->getNext();
+				}
+			}
+			archivoO.close();
+			salida.put("Se ha guardado el archivo");
 		}
-		archivoO.close();
 	}
 	void salir() {
 		exit(0);
 	}
 
 	void consulta() {
-
+		salida.put("");
 		VConsulta vcon(Point(200, 200), 500, 500, "Consulta",tablaHash);
 		vcon.wait_for_button();
 	}
 	void inserta() {
-
+		salida.put("");
 		VInsertar vinsert(Point(200, 200), 500, 400, "Insertar", tablaHash);
 		vinsert.wait_for_button();
 	}
 	void elimina() {
+		salida.put("");
 		VEliminar velimina(Point(200, 200), 500, 400, "Eliminar", tablaHash);
 		velimina.wait_for_button();
 	}
 	void modifica() {
+		salida.put("");
 		VModificar vModifica(Point(200, 200), 500, 400, "Modificar", tablaHash);
 		vModifica.wait_for_button();
 	}
@@ -85,28 +102,38 @@ struct Ventana :
 		// Show native chooser
 		switch (fnfc.show()) {
 		case -1: printf("ERROR: %s\n", fnfc.errmsg());    break;  // ERROR
-		case  1: printf("CANCEL\n");                      break;  // CANCEL
-		default: printf("PICKED: %s\n", fnfc.filename()); break;  // FILE CHOSEN
-		}
-		ofstream archivoO;
-		string paths = fnfc.filename();
-		if (split(paths, '.').size() < 2) {
-			archivoO.open(paths + ".csv");
-		}
-		else {
-			archivoO.open(paths);
-		}
-		if (archivoO.fail()) {
-			return;
-		}
-		for (int i = 0; i < tablaHash.getSize(); i++) {
-			HashNode * a = tablaHash.getTabla()[i];
-			while (a != NULL) {
-				archivoO << a->getValor() << endl;
-				a = a->getNext();
+		case  1: break;  // CANCEL
+		default: 
+			ofstream archivoO;
+			string paths = fnfc.filename();
+			if (split(paths, '.').size() < 2) {
+				archivoO.open(paths + ".csv");
+				if (!abierto) {
+					path = paths + ".csv";
+					abrir(true);
+				}
 			}
+			else {
+				archivoO.open(paths);
+				if (!abierto) {
+					path = paths;
+					abrir(true);
+				}
+			}
+			if (archivoO.fail()) {
+				return;
+			}
+			for (int i = 0; i < tablaHash.getSize(); i++) {
+				HashNode * a = tablaHash.getTabla()[i];
+				while (a != NULL) {
+					archivoO << a->getValor() << endl;
+					a = a->getNext();
+				}
+			}
+			archivoO.close();
+			salida.put("Se ha guardado el archivo");
+			break;
 		}
-		archivoO.close();
 	}
 	static void abrir_cb(Address, Address addr) {
 		static_cast<Ventana*>(addr)->abrir();
@@ -146,6 +173,8 @@ public:
 	Menu archivoM;
 	Menu personasM;
 	string path;
+	bool abierto=false;
+	Out_box salida;
 	Ventana(Point xy, int w, int h, const string& title)
 		: Window(xy, w, h, title),
 		button_pushed(false),
@@ -158,13 +187,15 @@ public:
 		insertarBtn(Point(10, 50), 70, 20, "Insertar", insertar_cb),
 		eliminarBtn(Point(10, 50), 70, 20, "Eliminar", eliminar_cb),
 		modificarBtn(Point(10, 50), 70, 20, "Modificar", modificar_cb),
-		personasM(Point(300, 200), 105, 20, Menu::vertical, "Personas")
-		{
+		personasM(Point(300, 200), 105, 20, Menu::vertical, "Personas"),
+		salida(Point(150, 378), 250, 20, "")
+	{
 		archivoM.attach(abrirBtn);
 		archivoM.attach(guardarBtn);
 		archivoM.attach(guardarComoBtn);
 		archivoM.attach(salirBtn);
 		attach(archivoM);
+		attach(salida);
 		personasM.attach(consultarBtn);
 		personasM.attach(insertarBtn);
 		personasM.attach(eliminarBtn);
