@@ -202,6 +202,7 @@ public:
 	Menu archivoM;
 	Menu personasM;
 	string path;
+	Text bienmsj;
 	bool abierto=false;
 	Out_box salida;
 	Ventana(Point xy, int w, int h, const string& title)
@@ -217,7 +218,8 @@ public:
 		eliminarBtn(Point(10, 50), 70, 20, "Eliminar", eliminar_cb),
 		modificarBtn(Point(10, 50), 70, 20, "Modificar", modificar_cb),
 		personasM(Point(300, 200), 105, 20, Menu::vertical, "Personas"),
-		salida(Point(150, 378), 250, 20, "")
+		salida(Point(150, 378), 250, 20, ""),
+		bienmsj(Point(200,100),"Bienvenido")
 	{
 		archivoM.attach(abrirBtn);
 		archivoM.attach(guardarBtn);
@@ -229,6 +231,8 @@ public:
 		personasM.attach(insertarBtn);
 		personasM.attach(eliminarBtn);
 		personasM.attach(modificarBtn);
+		bienmsj.set_font_size(40);
+		attach(bienmsj);
 		attach(personasM);
 	}
 	void wait_for_button()
