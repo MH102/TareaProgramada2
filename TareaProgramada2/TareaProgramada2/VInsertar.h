@@ -6,6 +6,26 @@ struct VInsertar :
 	public Window
 {
 	void insertar() {
+		if (cedula.get_string().size() != 9) {
+			salida.put("Cedula invalida");
+			return;
+		}
+		if (nombre.get_string().size() == 0) {
+			salida.put("Por favor ingrese el nombre");
+			return;
+		}
+		if (primerApellido.get_string().size() == 0) {
+			salida.put("Por favor ingrese el primer apellido");
+			return;
+		}
+		if (segundoApellido.get_string().size() == 0) {
+			salida.put("Por favor ingrese el segundo apellido");
+			return;
+		}
+		if (nacimiento.get_string().size() == 0) {
+			salida.put("Por favor ingrese la fecha de nacimiento");
+			return;
+		}
 		string valor = cedula.get_string() +";"+nombre.get_string()+ ";" + primerApellido.get_string() + ";" + segundoApellido.get_string() + ";" + nacimiento.get_string();
 		cout << valor;
 		string resultado = tabla.put(valor);

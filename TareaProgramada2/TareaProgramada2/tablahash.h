@@ -123,7 +123,7 @@ public:
 		if (!a) {
 			return "false";
 		}
-		return a->getValor();
+		return a->getValor()+";"+to_string(colisiones);
 	}
 	string put(string valor) {
 		vector<string> vec = split(valor, ';');

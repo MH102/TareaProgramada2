@@ -7,21 +7,22 @@ struct VConsulta :
 {
 	void consul() {
 		string cedu = cedula.get_string();
-		string colisiones = tabla.get(cedu);
-		string mensaje;
-		if (cedu.length()!= 9) {
+		if (cedu.size()!= 9) {
 			salida.put("Cedula invalida");
+			return;
 		}
-		if (colisiones == "false") {
-			salida.put( "Cedula no existe");
-		
+		if (!tabla.verificarCedula(cedu)) {
+			salida.put("La cedula no existe");
+			return;
 		}
+		string colisiones = tabla.get(cedu);
 		vector<string> vec = split(colisiones, ';');
-		string nombre = vec.at(1);
-		string primerA = vec.at(2);
-		string segundoA = vec.at(3);
-		string fecha = vec.at(4);
-		salida.put( "Colisiones encontradas: "+colisiones);
+		cedula.put(vec.at(0));
+		nombre.put(vec.at(1));
+		primerApellido.put(vec.at(2));
+		segundoApellido.put(vec.at(3));
+		nacimiento.put(vec.at(4));
+		salida.put( "Colisiones encontradas: "+vec.at(5));
 		
 	}
 

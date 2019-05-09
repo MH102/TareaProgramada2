@@ -1,10 +1,9 @@
 #include "Ventana.h"
 
-
+HashMap  * tablaHash = new HashMap();
 /*
 ofstream archivoO;
 string path;
-HashMap  * tablaHash = new HashMap();
 
 bool abrir(string a) {
 	path = a;

@@ -7,31 +7,33 @@ struct VEliminar :
 {
 	void consulta() {
 		string cedu = cedula.get_string();
-		string colisiones = tabla.get(cedu);
-		string mensaje;
-		if (cedu.length() != 9) {
+		
+		if (cedu.size() != 9) {
 			salida.put("Cedula invalida");
+			return;
 		}
-		if (colisiones == "false") {
-			salida.put("Cedula no existe");
-
+		if (!tabla.verificarCedula(cedu)) {
+			salida.put("El registro no existe");
+			return;
 		}
+		string colisiones = tabla.get(cedu);
 		vector<string> vec = split(colisiones, ';');
+		cedula.put(vec.at(0));
 		nombre.put(vec.at(1));
 		primerApellido.put(vec.at(2));
-		segundoApellido.put(  vec.at(3));
+		segundoApellido.put(vec.at(3));
 		nacimiento.put(vec.at(4));
+		salida.put("Colisiones encontradas: " + vec.at(5));
 		
 	}
 	void eliminar() {
-		string colisiones = cedula.get_string();
-		string mensaje;
+		string colisiones = tabla.remove(cedula.get_string());
 		if (colisiones == "-1") {
 			salida.put( "Registro no existe");
+			return;
 			
 		}
 		salida.put("Registro eliminado con " + colisiones + " colisiones");
-		cout << "Eliminacion: " << colisiones << endl;
 		
 	}
 	void cancelar() {

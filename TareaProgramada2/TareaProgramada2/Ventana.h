@@ -23,8 +23,9 @@ struct Ventana :
 		case  1: printf("CANCEL\n");                      break;  // CANCEL
 		default: printf("PICKED: %s\n", fnfc.filename()); break;  // FILE CHOSEN
 		}
+		path = fnfc.filename();
 		ifstream archivo;
-		archivo.open(fnfc.filename());
+		archivo.open(path);
 		if (archivo.fail()) {
 			cout << "Error";
 		}
@@ -37,7 +38,19 @@ struct Ventana :
 
 	}
 	void guardar() {
-
+		ofstream archivoO;
+		archivoO.open(path);
+		if (archivoO.fail()) {
+			return;
+		}
+		for (int i = 0; i < tablaHash.getSize(); i++) {
+			HashNode * a = tablaHash.getTabla()[i];
+			while (a != NULL) {
+				archivoO << a->getValor() << endl;
+				a = a->getNext();
+			}
+		}
+		archivoO.close();
 	}
 	void salir() {
 		exit(0);
@@ -106,20 +119,20 @@ public:
 	Button modificarBtn;
 	Menu archivoM;
 	Menu personasM;
+	string path;
 	Ventana(Point xy, int w, int h, const string& title)
 		: Window(xy, w, h, title),
 		button_pushed(false),
 		abrirBtn(Point(10, 50), 70, 20, "Abrir..", abrir_cb),
-		guardarBtn(Point(10, 50), 70, 20, "Guardar",guardar_cb),
+		guardarBtn(Point(10, 50), 70, 20, "Guardar", guardar_cb),
 		guardarComoBtn(Point(10, 50), 100, 20, "Guardar como...", guardarcm_cb),
 		salirBtn(Point(10, 50), 70, 20, "Salir", salir_cb),
 		archivoM(Point(150, 200), 105, 20, Menu::vertical, "Archivo"),
-		consultarBtn(Point(10,50),70,20,"Consultar",consultar_cb),
+		consultarBtn(Point(10, 50), 70, 20, "Consultar", consultar_cb),
 		insertarBtn(Point(10, 50), 70, 20, "Insertar", insertar_cb),
 		eliminarBtn(Point(10, 50), 70, 20, "Eliminar", eliminar_cb),
 		modificarBtn(Point(10, 50), 70, 20, "Modificar", salir_cb),
 		personasM(Point(300, 200), 105, 20, Menu::vertical, "Personas")
-		
 		{
 		archivoM.attach(abrirBtn);
 		archivoM.attach(guardarBtn);
@@ -131,6 +144,7 @@ public:
 		personasM.attach(eliminarBtn);
 		personasM.attach(modificarBtn);
 		attach(personasM);
+		tablaHash = HashMap();
 		
 		
 		
