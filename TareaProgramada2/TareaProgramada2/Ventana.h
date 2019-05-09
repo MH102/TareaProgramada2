@@ -15,8 +15,7 @@ struct Ventana :
 		Fl_Native_File_Chooser fnfc;
 		fnfc.title("Seleccione el archivo");
 		fnfc.type(Fl_Native_File_Chooser::BROWSE_FILE);
-		fnfc.filter("Text\t*.txt\n"
-			"C Files\t*.{cxx,h,c}");
+		fnfc.filter("csv\t*.csv\n");
 		fnfc.directory("/var/tmp");           // default directory to use
 		// Show native chooser
 		switch (fnfc.show()) {
@@ -29,6 +28,7 @@ struct Ventana :
 		archivo.open(path);
 		if (archivo.fail()) {
 			cout << "Error";
+			return;
 		}
 		string info;
 		while (getline(archivo, info)) {
@@ -80,8 +80,7 @@ struct Ventana :
 		Fl_Native_File_Chooser fnfc;
 		fnfc.title("Guardar archivo como");
 		fnfc.type(Fl_Native_File_Chooser::BROWSE_SAVE_FILE);
-		fnfc.filter("Text\t*.txt\n"
-			"C Files\t*.{cxx,h,c}");
+		fnfc.filter("CSV\t*.csv\n");
 		fnfc.directory("/var/tmp");           // default directory to use
 		// Show native chooser
 		switch (fnfc.show()) {
@@ -89,6 +88,25 @@ struct Ventana :
 		case  1: printf("CANCEL\n");                      break;  // CANCEL
 		default: printf("PICKED: %s\n", fnfc.filename()); break;  // FILE CHOSEN
 		}
+		ofstream archivoO;
+		string paths = fnfc.filename();
+		if (split(paths, '.').size() < 2) {
+			archivoO.open(paths + ".csv");
+		}
+		else {
+			archivoO.open(paths);
+		}
+		if (archivoO.fail()) {
+			return;
+		}
+		for (int i = 0; i < tablaHash.getSize(); i++) {
+			HashNode * a = tablaHash.getTabla()[i];
+			while (a != NULL) {
+				archivoO << a->getValor() << endl;
+				a = a->getNext();
+			}
+		}
+		archivoO.close();
 	}
 	static void abrir_cb(Address, Address addr) {
 		static_cast<Ventana*>(addr)->abrir();
@@ -152,7 +170,6 @@ public:
 		personasM.attach(eliminarBtn);
 		personasM.attach(modificarBtn);
 		attach(personasM);
-		tablaHash = HashMap();
 	}
 	void wait_for_button()
 		// modified event loop
