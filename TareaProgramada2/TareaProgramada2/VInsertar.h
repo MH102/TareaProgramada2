@@ -85,7 +85,6 @@ struct VInsertar :
 			return;
 		}
 		string valor = cedula.get_string() +";"+nombre.get_string()+ ";" + primerApellido.get_string() + ";" + segundoApellido.get_string() + ";" + nacimiento.get_string();
-		cout << valor;
 		string resultado = tabla.put(valor);
 		if (resultado == "-1") {
 			salida.put("Insercion fallida");

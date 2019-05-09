@@ -32,17 +32,22 @@ struct VEliminar :
 		segundoApellido.put(vec.at(3));
 		nacimiento.put(vec.at(4));
 		salida.put("Colisiones encontradas: " + vec.at(5));
-		
+		consultado = true;
 	}
 	void eliminar() {
+		if (!consultado) {
+			salida.put("Por favor consulte una cedula");
+			return;
+		}
+		consultado = false;
 		string colisiones = tabla.remove(cedula.get_string());
+		limpiar();
 		if (colisiones == "-1") {
 			salida.put( "Registro no existe");
 			return;
 			
 		}
 		salida.put("Registro eliminado con " + colisiones + " colisiones");
-		
 	}
 	void cancelar() {
 		button_pushed = true;
@@ -75,6 +80,7 @@ struct VEliminar :
 	In_box nacimiento;
 	Out_box salida;
 	HashMap& tabla;
+	bool consultado = false;
 public:
 	Button Btnconsultar;
 	Button eliminarBtn;
