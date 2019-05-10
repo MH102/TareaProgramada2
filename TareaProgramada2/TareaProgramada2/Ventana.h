@@ -27,7 +27,7 @@ struct Ventana :
 		case  1: printf("CANCEL\n");                      break;  // CANCEL
 		default: 
 			path = fnfc.filename();
-			if (split(path,'.').at(1) != "csv") {
+			if (split(path,'.').back() != "csv") {
 				salida.put("Tipo de archivo invalido");
 				return;
 			}
@@ -220,10 +220,15 @@ public:
 		personasM(Point(300, 200), 105, 20, Menu::vertical, "Personas"),
 		salida(Point(150, 378), 250, 20, ""),
 		bienmsj(Point(200, 100), "Bienvenido"),
-		msj(Point(125, 150), "Seleccione un archivo del tipo .csv sobre el cual trabajar"),
+		msj(Point(125, 150), ""),
 		archivomsj(Point(180, 195), "Archivo"),
 		personasmsj(Point(330, 195), "Personas")
 	{
+		bienmsj.set_color(Color::black);
+		msj.set_color(Color::black);
+		msj.set_label("Seleccione un archivo del tipo.csv sobre el cual trabajar");
+		archivomsj.set_color(Color::black);
+		personasmsj.set_color(Color::black);
 		archivoM.attach(abrirBtn);
 		archivoM.attach(guardarBtn);
 		archivoM.attach(guardarComoBtn);
