@@ -65,7 +65,7 @@
     <ClInclude Include="VEliminar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VModificar.h">
+    <ClInclude Include="VOperacion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

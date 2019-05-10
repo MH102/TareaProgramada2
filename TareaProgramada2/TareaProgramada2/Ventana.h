@@ -1,10 +1,7 @@
 #pragma once
 #include "GUI.h"
 #include "tablahash.h"
-#include "VConsulta.h"
-#include"VInsertar.h"
-#include "VEliminar.h"
-#include "VModificar.h"
+#include "VOperacion.h"
 #include "Simple_window.h"
 #include <fstream>
 using namespace Graph_lib;
@@ -84,7 +81,7 @@ struct Ventana :
 			win.wait_for_button();
 		}
 		else {
-			VConsulta vcon(Point(200, 200), 500, 500, "Consulta", tablaHash);
+			VOperacion vcon(Point(200, 200), 500, 400, "Consulta", tablaHash);
 			vcon.wait_for_button();
 		}
 	}
@@ -95,7 +92,7 @@ struct Ventana :
 			win.wait_for_button();
 		}
 		else {
-			VInsertar vinsert(Point(200, 200), 500, 400, "Insertar", tablaHash);
+			VOperacion vinsert(Point(200, 200), 500, 400, "Insertar", tablaHash);
 			vinsert.wait_for_button();
 		}
 	}
@@ -106,7 +103,7 @@ struct Ventana :
 			win.wait_for_button();
 		}
 		else {
-			VEliminar velimina(Point(200, 200), 500, 400, "Eliminar", tablaHash);
+			VOperacion velimina(Point(200, 200), 500, 400, "Eliminar", tablaHash);
 			velimina.wait_for_button();
 		}
 	}
@@ -117,7 +114,7 @@ struct Ventana :
 			win.wait_for_button();
 		}
 		else {
-			VModificar vModifica(Point(200, 200), 500, 400, "Modificar", tablaHash);
+			VOperacion vModifica(Point(200, 200), 500, 400, "Modificar", tablaHash);
 			vModifica.wait_for_button();
 		}
 	}
