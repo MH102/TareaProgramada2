@@ -154,16 +154,16 @@ struct VOperacion :
 			salida.put("Por favor consulte una cedula");
 			return;
 		}
-		if (nombre.get_string().size() == 0 || nombre.get_string().size() > 25) {
-			salida.put("Por favor ingrese el nombre");
+		if (nombre.get_string().size() == 0 || nombre.get_string().size() > 25 || validarNumStoi(nombre.get_string())) {
+			salida.put("Por favor ingrese un nombre valido");
 			return;
 		}
-		if (primerApellido.get_string().size() == 0 || primerApellido.get_string().size() > 25) {
-			salida.put("Por favor ingrese el primer apellido");
+		if (primerApellido.get_string().size() == 0 || primerApellido.get_string().size() > 25 || validarNumStoi(primerApellido.get_string())) {
+			salida.put("Por favor ingrese un primer apellido valido");
 			return;
 		}
-		if (segundoApellido.get_string().size() == 0 || segundoApellido.get_string().size() > 25) {
-			salida.put("Por favor ingrese el segundo apellido");
+		if (segundoApellido.get_string().size() == 0 || segundoApellido.get_string().size() > 25 || validarNumStoi(segundoApellido.get_string())) {
+			salida.put("Por favor ingrese un segundo apellido valido");
 			return;
 		}
 		if (nacimiento.get_string().size() == 0) {
@@ -202,16 +202,16 @@ struct VOperacion :
 			salida.put("Por favor ingrese una cedula valida (Solo numeros)");
 			return;
 		}
-		if (nombre.get_string().size() == 0 || nombre.get_string().size() > 25) {
-			salida.put("Por favor ingrese el nombre");
+		if (nombre.get_string().size() == 0 || nombre.get_string().size() > 25 || validarNumStoi(nombre.get_string())) {
+			salida.put("Por favor ingrese un nombre valido");
 			return;
 		}
-		if (primerApellido.get_string().size() == 0 || primerApellido.get_string().size() > 25) {
-			salida.put("Por favor ingrese el primer apellido");
+		if (primerApellido.get_string().size() == 0 || primerApellido.get_string().size() > 25 || validarNumStoi(primerApellido.get_string())) {
+			salida.put("Por favor ingrese un primer apellido valido");
 			return;
 		}
-		if (segundoApellido.get_string().size() == 0 || segundoApellido.get_string().size() > 25) {
-			salida.put("Por favor ingrese el segundo apellido");
+		if (segundoApellido.get_string().size() == 0 || segundoApellido.get_string().size() > 25 || validarNumStoi(segundoApellido.get_string())) {
+			salida.put("Por favor ingrese un segundo apellido valido");
 			return;
 		}
 		if (nacimiento.get_string().size() == 0) {

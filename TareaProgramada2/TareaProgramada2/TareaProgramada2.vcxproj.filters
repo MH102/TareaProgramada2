@@ -56,15 +56,6 @@
     <ClInclude Include="tablahash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VConsulta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VInsertar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VEliminar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="VOperacion.h">
       <Filter>Header Files</Filter>
     </ClInclude>

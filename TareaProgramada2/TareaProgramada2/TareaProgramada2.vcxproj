@@ -154,10 +154,7 @@
     <ClInclude Include="Simple_window.h" />
     <ClInclude Include="std_lib_facilities.h" />
     <ClInclude Include="tablahash.h" />
-    <ClInclude Include="VConsulta.h" />
-    <ClInclude Include="VEliminar.h" />
     <ClInclude Include="Ventana.h" />
-    <ClInclude Include="VInsertar.h" />
     <ClInclude Include="VOperacion.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
